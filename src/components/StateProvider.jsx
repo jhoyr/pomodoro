@@ -1,19 +1,22 @@
-import React, { createContext, useEffect, useState } from 'react';
-export const StateContext = createContext();
+import React, { createContext, useEffect, useState, useCallback } from 'react';
+export const StateContext = createContext(); // Cria um contexto que permite compartilhar estado entre componentes sem precisar passar propriedades manualmente.
 
 const StateProvider = ({ children }) => {
+    // Estados para os tempos de trabalho e pausa
+    const [workTime, setWorkTime] = useState(25 * 60); // Tempo de trabalho em segundos
+    const [shortBreakTime, setShortBreakTime] = useState(5 * 60); // Tempo de pausa curta em segundos
+    const [longBreakTime, setLongBreakTime] = useState(15 * 60); // Tempo de pausa longa em segundos
 
-    const [workTime, setWorkTime] = useState(60 * 60);
-    const [shortBreakTime, setShortBreakTime] = useState(5 * 60);
-    const [longBreakTime, setLongBreakTime] = useState(30 * 60);
+    const [initTime, setInitTime] = useState(0); // Tempo inicial
+    const [activeTag, setActiveTag] = useState(0); // Tag ativa (0: trabalho, 1: pausa curta, 2: pausa longa)
+    const [progress, setProgress ] = useState(20); // Progresso do temporizador
+    const [time, setTime] = useState(0); // Tempo restante
+    const [isActive, setIsActive] = useState(false); // Estado do temporizador (ativo ou não)
+    const [pomodoroCount, setPomodoroCount] = useState(0); // Contador de pomodoros
 
-    const [initTime, setInitTime] = useState(0);
+    const [audio] = useState(new Audio('/sounds/notification.mp3')); // Som de notificação
 
-    const [activeTag, setActiveTag] = useState(0);
-    const [progress, setProgress ] = useState(20);
-    const [time, setTime] = useState(0);
-    const [isActive, setIsActive] = useState(false);
-
+    // Efeito para ajustar o tempo e o tempo inicial com base na tag ativa
     useEffect(() => {
         switch (activeTag) {
             case 0:
@@ -33,15 +36,25 @@ const StateProvider = ({ children }) => {
         }
     }, [activeTag, workTime, shortBreakTime, longBreakTime]);
 
-    const handleNext = () => {
+    // Função para mudar para o próximo estado baseado na tag ativa e contador de pomodoros
+    const handleNext = useCallback(() => {
         if (activeTag === 0) {
-            setActiveTag(shortBreakTime);
+            setActiveTag(1); // Muda para pausa curta após o trabalho
+            setPomodoroCount(pomodoroCount + 1); // Incrementa o contador de pomodoros
         } else if (activeTag === 1) {
-            setActiveTag(workTime);
+            setActiveTag(pomodoroCount % 4 === 3 ? 2 : 0); // Muda para pausa longa após 4 pomodoros ou volta para trabalho
         } else if (activeTag === 2) {
-            setActiveTag(workTime);
+            setActiveTag(0); // Volta para o trabalho após a pausa longa
         }
-    }
+    }, [activeTag, pomodoroCount]);
+
+    // Efeito para tocar o som e mudar para o próximo estado quando o tempo chega a 0
+    useEffect(() => {
+        if (time === 0 && isActive) {
+            audio.play(); // Toca o som de notificação
+            handleNext(); // Muda para o próximo estado
+        }
+    }, [time, isActive, audio, handleNext]); // Incluindo handleNext nas dependências
 
     return (
         <StateContext.Provider
@@ -62,7 +75,9 @@ const StateProvider = ({ children }) => {
                 setShortBreakTime,
                 longBreakTime,
                 setLongBreakTime,
-                handleNext
+                handleNext,
+                pomodoroCount,
+                setPomodoroCount
             }}>
             {children}
         </StateContext.Provider>

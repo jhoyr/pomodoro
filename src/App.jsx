@@ -1,5 +1,5 @@
 import './App.css';
-import styled from "styled-components"
+import styled from "styled-components";
 import Tags from './components/Tags/Tags';
 import Timer from './components/Timer/Timer';
 import Modal from './components/Modal/Modal';
@@ -8,6 +8,10 @@ import { FaCog } from "react-icons/fa";
 
 function App() {
 
+  /**
+   * Estado utilizado para controlar visibilidade do modal de configuração
+   * É inicializada como false (ou fechado)
+   */
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () =>{
@@ -20,6 +24,7 @@ function App() {
   return (
     <>
     <Modal isOpen={isOpen} onClose={onClose} />
+      {/* Title, Tags, Timer, e CogIcon são componentes renderizados no layout. */}
       <Title>Pomodoro</Title>
       <Tags />
       <Timer />
