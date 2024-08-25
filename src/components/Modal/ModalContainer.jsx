@@ -81,6 +81,11 @@ const InputWrapper = styled.div`
     display: flex;
     padding: 1rem;
     gap: 2rem;
+
+    @media (max-width: 500px){
+        align-items: flex-end;
+        text-align: center;
+        }
 `;
 const FormControl = styled.div`
     flex: 1;
@@ -138,4 +143,6 @@ const ModalCloseButton = styled.button`
     all: unset;
 `;
 
-const ModalBody = styled.div``;
+const ModalBody = styled.div`
+    
+`;

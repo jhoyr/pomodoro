@@ -35,6 +35,10 @@ const TagsContainer = styled.div`
     display: flex;
     gap: 1rem;
     align-items: center;
+
+    @media (max-width: 500px){
+        width: 35rem;
+        }
 `;
 
 const Tag = styled.button`

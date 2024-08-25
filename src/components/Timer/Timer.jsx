@@ -24,4 +24,10 @@ const TimerContainer = styled.div`
     place-items: center;
     box-shadow: -50px -50px 150px rgba(158, 158, 158, .2),
     50px -10px 100px rgba(0, 0, 0,.5);
+
+    @media (max-width: 500px){
+    width: 35rem;
+    height: 35rem;
+    }
+    
 `;

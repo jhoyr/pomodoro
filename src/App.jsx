@@ -41,6 +41,10 @@ const Title = styled.h1`
   font-size: 6rem;
   padding: 2rem 0;
   text-align: center;
+
+  @media (max-width: 450px){
+    justify-content: center;
+    }
 `;
 
 const CogIcon = styled.div`

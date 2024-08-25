@@ -29,6 +29,12 @@ const OuterCircle = styled.div`
     display: grid;
     place-items: center;
     background: conic-gradient(${props => props.theme.colors.primary} ${({ progress }) => progress}%, transparent ${({ progress }) => progress}%);
+
+    @media (max-width: 500px){
+        width: 30rem;
+        height: 30rem;
+        }
+
 `;
 const InnerCircle = styled.div`
     width: 33rem;
@@ -37,4 +43,9 @@ const InnerCircle = styled.div`
     border-radius: 50%;
     display: grid;
     place-items: center;
+
+    @media (max-width: 450px){
+        width: 28rem;
+        height: 28rem;
+        }
 `;
