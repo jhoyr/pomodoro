@@ -42,7 +42,7 @@ const Title = styled.h1`
   padding: 2rem 0;
   text-align: center;
 
-  @media (max-width: 450px){
+  @media (max-width: 500px){
     justify-content: center;
     }
 `;

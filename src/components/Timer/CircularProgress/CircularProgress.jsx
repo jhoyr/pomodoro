@@ -44,7 +44,7 @@ const InnerCircle = styled.div`
     display: grid;
     place-items: center;
 
-    @media (max-width: 450px){
+    @media (max-width: 500px){
         width: 28rem;
         height: 28rem;
         }
