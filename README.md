@@ -32,3 +32,12 @@ Pausas Curtas e Longas
 Depois de quatro sessões, você será automaticamente direcionado para uma pausa longa.
 
 
+## Deploy React em gh-pages
+
+- Para utilizar gh-pages: adicionar duas chaves em package.json
+    - "predeploy": "npm run build", <----------- #1
+    - "deploy": "gh-pages -d build", <---------- #2
+- Em seguida, adicionar homepage ao package.json
+    -  "homepage": "https://jhoyr.github.io/pomodoro/" <----
+- Instalação pacote gh-pages: yarn add gh-pages
+- Fazer deploy da aplicação: npm run deploy 
