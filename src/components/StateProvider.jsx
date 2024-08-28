@@ -1,4 +1,7 @@
 import React, { createContext, useEffect, useState, useCallback } from 'react';
+import { useWithSound } from "./Sound/useWithSound";
+import sound from "../assets/notification.mp3";
+
 export const StateContext = createContext(); // Cria um contexto que permite compartilhar estado entre componentes sem precisar passar propriedades manualmente.
 
 const StateProvider = ({ children }) => {
@@ -13,8 +16,7 @@ const StateProvider = ({ children }) => {
     const [time, setTime] = useState(0); // Tempo restante
     const [isActive, setIsActive] = useState(false); // Estado do temporizador (ativo ou não)
     const [pomodoroCount, setPomodoroCount] = useState(0); // Contador de pomodoros
-
-    const [audio] = useState(new Audio('/sounds/notification.mp3')); // Som de notificação
+    const {playSound} = useWithSound(sound); //Usado para desestruturar um objeto ou criar um objeto com a chave playSound.
 
     // Efeito para ajustar o tempo e o tempo inicial com base na tag ativa
     useEffect(() => {
@@ -51,10 +53,10 @@ const StateProvider = ({ children }) => {
     // Efeito para tocar o som e mudar para o próximo estado quando o tempo chega a 0
     useEffect(() => {
         if (time === 0 && isActive) {
-            audio.play(); // Toca o som de notificação
+            playSound(); // Toca o som de notificação
             handleNext(); // Muda para o próximo estado
         }
-    }, [time, isActive, audio, handleNext]); // Incluindo handleNext nas dependências
+    }, [time, isActive, handleNext]); // Incluindo handleNext nas dependências
 
     return (
         <StateContext.Provider
